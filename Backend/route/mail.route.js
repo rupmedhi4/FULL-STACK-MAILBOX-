@@ -9,10 +9,10 @@ const router = express.Router()
 
 
 router.post("/send",secureRoute,sendMail)
-router.post("/allReceiveMails",secureRoute,allReceiveMails)
-router.post("/allSendMails",secureRoute,allSendMail)
+router.get("/allReceiveMails",secureRoute,allReceiveMails)
+router.get("/allSendMails",secureRoute,allSendMail)
 router.get("/showMail/:id",secureRoute,individualMail)
-router.get("/deleteMail/:id",secureRoute,deleteMail)
+router.delete("/deleteMail/:id",secureRoute,deleteMail)
 
 
 export default router

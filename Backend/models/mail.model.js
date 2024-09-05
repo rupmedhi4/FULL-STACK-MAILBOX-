@@ -18,6 +18,9 @@ const mailSchema = mongoose.Schema({
     message :{
         type: String,
     },
+    isRead:{
+        type:Boolean,
+    }
 
 })
 

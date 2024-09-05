@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken";
 
 const secureRoute = (req, res, next) => {
     try {
-        const token = req.cookies.jwt;
+        const token = req.cookies.jwt || req.headers['authorization']?.split(' ')[1];
+        console.log(`cookies is ${req.cookies.jwt}`);
 
         if (!token) {
             return res.status(401).json({ error: "No token, authorization denied" });

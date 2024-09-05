@@ -8,7 +8,7 @@ const signup = async (req, res) => {
 
         const user = await User.findOne({email})
         if(user){
-            return res.status(400).json({message: "User already exists!"})
+            return res.status(201).json({message: "User already exists!"})
         }
 
         //hash password
@@ -20,7 +20,7 @@ const signup = async (req, res) => {
         })
         newUser.save()
         createTokenAndSaveCookie(newUser._id,res)
-        res.status(200).send(`User created successfully: ${JSON.stringify(req.body)}`);
+        res.status(200).json({message:"User created successfully",user:req.body})
     } catch (error) {
         res.status(400).send(`error in sign up something went wrong`);
 
@@ -28,25 +28,38 @@ const signup = async (req, res) => {
 
 }
 
-
-const login = async (req,res)=>{
+const login = async (req, res) => {
     try {
-        const {email, password} = req.body
-        
-        const user = await User.findOne({email})
-        const isMatch = await bcrypt.compare(password,user.password)
+        const { email, password } = req.body;
 
-        if(!user || !isMatch){
-            return res.status(400).json({error:"invalid user credential"})
+        // Check if the user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ error: "Invalid user credentials" });
         }
 
-        createTokenAndSaveCookie(user._id,res)
-        res.status(200).send(`User login successfully: ${JSON.stringify(req.body)}`);
+        // Compare the password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ error: "Invalid user credentials" });
+        }
 
+        // Create token and save it in a cookie
+        createTokenAndSaveCookie(user._id, res);
+
+        // Remove password from user object
+        const { password: pwd, ...userWithoutPassword } = user.toObject();
+
+        // Send response without the password
+        res.status(200).json({
+            message: "User logged in successfully",
+            user: userWithoutPassword
+        });
     } catch (error) {
-        res.status(400).send(`error in login something went wrong`);
+        res.status(500).send(`Error in login: something went wrong`);
     }
-}
+};
+
 
 
 const logOut = (req,res)=>{
