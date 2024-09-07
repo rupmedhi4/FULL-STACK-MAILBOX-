@@ -11,7 +11,7 @@ export default function SingleMail() {
     useEffect(() => {
         const fetchMail = async () => {
             try {
-                const res = await axios.get(`http://localhost:4000/mail/showMail/${id}`, {
+                const res = await axios.get(`/api/mail/showMail/${id}`, {
                     headers: {
                         'Content-Type': 'application/json',
                     },

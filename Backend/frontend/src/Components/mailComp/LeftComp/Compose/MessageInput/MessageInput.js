@@ -27,7 +27,7 @@ export default function MessageInput() {
             message
         }
         try {
-            const res = await axios.post("http://localhost:4000/mail/send", data, {
+            const res = await axios.post("/api/mail/send", data, {
                 headers: {
                     "Content-Type": "application/json"
                 },

@@ -9,7 +9,7 @@ export default function Home() {
      
       <div className='flex min-h-screen bg-[#cd66e6] items-center justify-center'>
         
-       <h1 className='font-bold text-white text-3xl'>Welcome to my mail box client</h1>
+       <h1 className='font-bold text-white text-3xl'>Welcome to your mail box client</h1>
 
       </div>
     </div>

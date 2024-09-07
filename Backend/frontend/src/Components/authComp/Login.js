@@ -33,7 +33,7 @@ const Login = () => {
             password
         }
         try {
-            const res = await axios.post("http://localhost:4000/user/login", data, {
+            const res = await axios.post("/api/user/login", data, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -44,7 +44,7 @@ const Login = () => {
                 localStorage.setItem('user', JSON.stringify(userData));
                 setAuthUser(userData);
                 alert("Log in successful");
-                navigate('/home');
+                navigate('/');
             }
         } catch (error) {
             console.log(`error in login component submitHander function ${error}`);

@@ -31,19 +31,15 @@ const SignUp = () => {
             password
         }
         try {
-            const res = await axios.post("http://localhost:4000/user/signup", data, {
+            const res = await axios.post("/api/user/signup", data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
-            if (res.status === 201) {
-                alert(`${res.data.message}`);
-                console.log(res);
-            } else {
+            if (res.status === 200) {
                 alert("Sign up successful");
-                console.log(res);
+                navigate("/login")
             }
-
         } catch (error) {
             alert(`${error.message}`)
             console.log(`error in signup component submitHander function ${error}`);

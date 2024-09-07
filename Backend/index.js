@@ -40,8 +40,8 @@ const dbConnect = async () => {
 dbConnect();
 
 
-app.use("/user",userRoute)
-app.use("/mail",mailRoute)
+app.use("/api/user",userRoute)
+app.use("/api/mail",mailRoute)
 
 
 

@@ -10,10 +10,11 @@ import Left from "./Components/mailComp/LeftComp/Left";
 import ReceivedMail from "./Components/mailComp/LeftComp/Inbox/ReceivedMail/ReceivedMail";
 import AllSendMails from "./Components/mailComp/LeftComp/SendMail/AllSendMails/AllSendMails";
 import SingleMail from "./Components/showSingleMail/SingleMail";
+import PrivateCmp from "./Components/PrivateCmp";
 
 function App() {
-  const [authUser] = useAuth();
-  console.log(authUser);
+  const [authUser]= useAuth();
+
 
   return (
     <div className="flex">
@@ -23,21 +24,20 @@ function App() {
           authUser ?
             <div className="min-w-[20%]">
               {authUser && <Left />}
-            </div> : null
+            </div> :null
         }
-
 
         {/* Main content */}
         <div className="flex-grow">
           <Routes>
-            <Route path="/" element={authUser ? <Home /> : <Navigate to="/login" />} />
-            <Route path="/login" element={authUser ? <Navigate to="/" /> : <Login />} />
+            <Route path="/" element={<PrivateCmp component={<Home />}/>} />
+            <Route path="/login"element={authUser ? <Navigate to="/" /> : <Login />} />
             <Route path="/signup" element={authUser ? <Navigate to="/" /> : <SignUp />} />
-            <Route path="/home" element={authUser ? <Home /> : <Navigate to="/login" />} />
-            <Route path="/compose/mail" element={authUser ? <ComposeMail /> : <Navigate to="/login" />} />
-            <Route path="/inbox/received/mail" element={authUser ? <ReceivedMail /> : <Navigate to="/login" />} />
-            <Route path="/inbox/send/mail" element={authUser ? <AllSendMails /> : <Navigate to="/login" />} />
-            <Route path="/mails/mail/:id" element={authUser ? <SingleMail /> : <Navigate to="/login" />} />
+            <Route path="/compose/mail" element={<PrivateCmp component={<ComposeMail />}/>} />
+            <Route path="/inbox/received/mail" element={<PrivateCmp component={<ReceivedMail />}/>} />
+            <Route path="/inbox/send/mail" element={<PrivateCmp component={<AllSendMails />}/>} />
+            <Route path="/mails/mail/:id" element={<PrivateCmp component={<SingleMail />}/>} />
+           
           </Routes>
         </div>
       </BrowserRouter>

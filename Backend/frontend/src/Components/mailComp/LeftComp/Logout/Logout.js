@@ -12,7 +12,7 @@ export default function Logout() {
   const logoutHandler = async () => {
     try {
 
-      const res = await axios.post("http://localhost:4000/user/logout",{}, {
+      const res = await axios.post("/api/user/logout",{}, {
         headers: {
           'Content-Type': 'application/json'
         },

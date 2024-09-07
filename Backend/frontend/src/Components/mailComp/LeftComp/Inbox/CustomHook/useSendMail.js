@@ -11,7 +11,7 @@ export default function useSendMail() {
 
   const AllMail = async () => {
     try {
-        const res = await axios.get("http://localhost:4000/mail/allReceiveMails", {
+        const res = await axios.get("/api/mail/allReceiveMails", {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -33,7 +33,7 @@ export default function useSendMail() {
 
   const allSendMails = async () => {
     try {
-      const res = await axios.get('http://localhost:4000/mail/allSendMails', {
+      const res = await axios.get('/api/mail/allSendMails', {
         headers: {
           'Content-Type': 'application/json',
           "Authorization": `Bearer ${token}`
@@ -52,7 +52,7 @@ export default function useSendMail() {
 
   const sendMailDelete = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:4000/mail/deleteMail/${id}`, {
+      const res = await axios.delete(`/api/mail/deleteMail/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           "Authorization": `Bearer ${token}`
