@@ -14,21 +14,19 @@ const sendMail = async (req, res) => {
     }
     const receiverId = mailReceiver._id
 
-    // console.log(`sender:${senderId}, receiverid: ${receiverId}`);
 
     const newMsg = new Mail({
       senderId,
       receiverId,
       subject,
       message,
-      isRead:false
+      isRead: false
     })
 
     newMsg.save()
 
     // store send mail in specific mail model
     const senderMail = await User.findById(req.user.user_id)
-    console.log(`sender mail ${senderMail.email}`);
     const sendMailExists = await SpecificMail.findOne({ email: senderMail.email })
     if (sendMailExists) {
       sendMailExists.sendMail.push(newMsg._id)
@@ -43,7 +41,6 @@ const sendMail = async (req, res) => {
 
     // store receive mail in specific mail model
     const receivedMailExists = await SpecificMail.findOne({ email: mailReceiver.email })
-    console.log(`received mail ${mailReceiver.email}`);
     if (receivedMailExists) {
       receivedMailExists.receiveMail.push(newMsg._id)
       await receivedMailExists.save();
@@ -56,7 +53,7 @@ const sendMail = async (req, res) => {
     }
 
 
-    res.status(200).json({ message: "send msg successfully", user: req.body })
+    res.status(200).json({ message: "send msg successfully", user: newMsg })
   } catch (error) {
 
     console.log(`error in send mail ${error}`);
@@ -73,7 +70,6 @@ const allSendMail = async (req, res) => {
 
     const allSendMail = await SpecificMail.findOne({ email: user.email }).populate("sendMail");
 
-    console.log(allSendMail ? allSendMail.sendMail : []);
     res.status(200).json(allSendMail ? allSendMail.sendMail : []);
 
   } catch (error) {
@@ -95,7 +91,6 @@ const allReceiveMails = async (req, res) => {
     const allReceivedMail = await SpecificMail.findOne({ email: user.email }).populate("receiveMail");
     if (allReceivedMail) {
       res.status(200).json(allReceivedMail.receiveMail);
-      console.log(allReceivedMail.receiveMail);
     } else {
       res.status(201).json({ message: 'No received mails found' });
     }
@@ -121,13 +116,13 @@ const individualMail = async (req, res) => {
     const mail = allMail.find((mail) => mail._id.toString() === id)
     mail.isRead = true
     await mail.save()
-    const senderMail = await User.findOne({_id:mail.senderId})    
-    const receiverMail = await User.findOne({_id:mail.receiverId})    
+    const senderMail = await User.findOne({ _id: mail.senderId })
+    const receiverMail = await User.findOne({ _id: mail.receiverId })
 
 
     if (mail) {
-      res.status(201).json({data:mail,senderMail,receiverMail})
-    }else{
+      res.status(201).json({ data: mail, senderMail, receiverMail })
+    } else {
       res.status(404).json({ message: 'Mail not found' })
     }
 
